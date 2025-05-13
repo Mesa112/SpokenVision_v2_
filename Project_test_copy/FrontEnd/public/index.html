@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpokenVision - AI Vision Assistant for the Visually Impaired</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 6rem 0;
+            text-align: center;
+        }
+        
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-icon {
+            background-color: #67d232;
+            color: white;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s;
+            height: 100%;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .demo-section {
+            background-color: #f1f5fe;
+            padding: 4rem 0;
+        }
+        
+        .video-container {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            aspect-ratio: 16/9;
+            max-height: 500px;
+        }
+        
+        #video {
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+        
+        .controls {
+            margin-top: 1.5rem;
+        }
+        
+        .btn-primary {
+            background-color: #2575fc;
+            border-color: #2575fc;
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1a68e5;
+            border-color: #1a68e5;
+        }
+        
+        .response-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+            margin-top: 1.5rem;
+            min-height: 150px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .recording-dot {
+            height: 15px;
+            width: 15px;
+            background-color: #ff0000;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 10px;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .footer {
+            background-color: #1e2a78;
+            color: white;
+            padding: 2rem 0;
+        }
+        
+        .response-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid #2575fc;
+            background-color: #f8f9fa;
+        }
+        
+        .timestamp {
+            color: #6c757d;
+            font-size: 0.8rem;
+        }
+        
+        /* Mobile Styles */
+        @media (max-width: 767px) {
+            .hero-section {
+                padding: 3rem 0;
+            }
+            
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+            
+            .video-container {
+                height: auto;
+                max-height: none;
+            }
+            
+            .controls {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .controls .btn {
+                margin-bottom: 0.5rem;
+                width: 100%;
+                max-width: 200px;
+            }
+            
+            .feature-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+            
+            .response-container {
+                max-height: 200px;
+            }
+        }
+        
+        .camera-select-container {
+            margin-bottom: 1rem;
+        }
+        
+        #switchCameraBtn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 100;
+            opacity: 0.7;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0,0,0,0.5);
+            border: none;
+            color: white;
+            transition: opacity 0.3s;
+        }
+        
+        #switchCameraBtn:hover {
+            opacity: 1;
+        }
+        
+        /* Style for iOS recording preview */
+        .recording-preview {
+            margin-top: 2rem;
+            padding: 1rem;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.1);
+        }
+        
+        /* Loading indicator styles */
+        .loading-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .loading-spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top-color: #2575fc;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .model-status {
+            background-color: #e9ecef;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .status-icon {
+            margin-right: 5px;
+        }
+        
+        .status-pending {
+            color: #ffc107;
+        }
+        
+        .status-success {
+            color: #28a745;
+        }
+        
+        .status-error {
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1>SpokenVision</h1>
+            <p class="lead">An AI-powered vision assistant for visually impaired individuals</p>
+        </div>
+    </section>
+    
+    <!-- About Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">How SpokenVision Helps</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <div class="feature-icon mx-auto">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <h3>Real-time Scene Description</h3>
+                            <p>SpokenVision identifies objects, people, and text in the environment and provides clear, concise audio descriptions.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <div class="feature-icon mx-auto">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <h3>Spatial Awareness</h3>
+                            <p>Understand the positioning and relationships between objects with natural spatial language that helps with navigation.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <div class="feature-icon mx-auto">
+                                <i class="fas fa-volume-up"></i>
+                            </div>
+                            <h3>Natural Speech Output</h3>
+                            <p>Converts technical descriptions into natural, conversational language that's easy to understand and process.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Technology Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-5">Technology Behind SpokenVision</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <h4><i class="fas fa-camera text-primary me-2"></i> Computer Vision</h4>
+                    <p>SpokenVision uses advanced object detection (YOLO), depth estimation, and semantic segmentation to understand complex visual scenes.</p>
+                    
+                    <h4 class="mt-4"><i class="fas fa-brain text-primary me-2"></i> Natural Language Processing</h4>
+                    <p>AI models transform technical scene information into helpful, contextual descriptions that focus on what matters most to the user.</p>
+                </div>
+                <div class="col-md-6">
+                    <h4><i class="fas fa-project-diagram text-primary me-2"></i> Context Building</h4>
+                    <p>The system doesn't just identify objects—it understands relationships between them and maintains awareness of the scene over time.</p>
+                    
+                    <h4 class="mt-4"><i class="fas fa-comment-alt text-primary me-2"></i> Audio Generation</h4>
+                    <p>High-quality text-to-speech technology delivers clear, natural voice guidance that's easy to understand in various environments.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Demo Section -->
+    <section class="demo-section">
+        <div class="container">
+            <h2 class="text-center mb-5">Try SpokenVision</h2>
+            
+            <!-- Model Status Section -->
+            <div class="row mb-4">
+                <div class="col-lg-6 mx-auto">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">System Status</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="modelLoadingStatus" class="model-status">
+                                <div class="loading-indicator">
+                                    <div class="loading-spinner"></div>
+                                    <span>Loading AI models...</span>
+                                </div>
+                                <small class="text-muted">Please wait while we initialize our AI models. The camera will be available once loading is complete.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6">
+                    <!-- Camera Selection -->
+                    <div class="camera-select-container d-none">
+                        <label for="cameraSelect" class="form-label">Select Camera:</label>
+                        <select id="cameraSelect" class="form-select mb-3">
+                            <!-- Camera options will be populated by JavaScript -->
+                        </select>
+                    </div>
+                    
+                    <div class="video-container">
+                        <video id="video" autoplay playsinline></video>
+                        <button id="switchCameraBtn" class="btn btn-light">
+                            <i class="fas fa-camera-rotate"></i>
+                        </button>
+                    </div>
+                    <div class="controls mt-3 d-flex justify-content-center">
+                        <button id="startBtn" class="btn btn-primary me-2" disabled>
+                            <i class="fas fa-play me-2"></i>Start Camera
+                        </button>
+                        <button id="recordBtn" class="btn btn-danger me-2" disabled>
+                            <i class="fas fa-record-vinyl me-2"></i>Record Demo
+                        </button>
+                        <button id="stopBtn" class="btn btn-secondary" disabled>
+                            <i class="fas fa-stop me-2"></i>Stop
+                        </button>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">System Responses</h5>
+                            <div id="recordingStatus" class="d-none">
+                                <span class="recording-dot"></span> Recording...
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="responseContainer" class="response-container">
+                                <p class="text-muted text-center">Loading models. Please wait...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="audioToggle" checked>
+                            <label class="form-check-label" for="audioToggle">Play audio responses</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>SpokenVision</h4>
+                    <p>Making the visual world accessible through AI</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p>&copy; 2025 SpokenVision. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="model-loader.js"></script>
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

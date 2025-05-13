@@ -1,0 +1,32 @@
+# Core dependencies
+fastapi==0.115.12
+uvicorn==0.34.2
+python-multipart==0.0.20
+python-dotenv==1.0.1
+numpy==1.26.4
+
+# Image processing and computer vision
+opencv-python==4.11.0.86
+pillow==10.4.0
+
+# Deep learning models and frameworks
+torch==2.6.0
+torchvision==0.21.0
+accelerate==1.6.0
+safetensors==0.5.3
+ultralytics==8.3.111
+
+# Audio processing
+soundfile==0.13.1
+pydub==0.25.1
+pygame==2.6.1
+gtts==2.5.4
+kokoro==0.9.4
+
+# NLP and text processing
+openai==1.77.0
+num2words==0.5.14
+Anthropic
+
+# Web UI and extras
+streamlit==1.45.0
