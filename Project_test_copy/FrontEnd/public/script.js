@@ -19,9 +19,10 @@ let isRecording = false;
 let facingMode = 'environment'; // 'environment' is back camera, 'user' is front camera
 let modelsLoaded = false;
 let apiVerified = false;
+let speechEnabled = false;
 
 // API endpoint
-const API_ENDPOINT = "https://spokenvision-952306169360.us-central1.run.app/process/";
+const API_ENDPOINT = "https://spokenvision-952306169360.us-central1.run.app/process/"; //"https://spokenvision-952306169360.us-central1.run.app/process/";
 
 // Initialize model loader
 let modelLoader;
@@ -29,15 +30,15 @@ let modelLoader;
 // DOMContentLoaded
 
 // TTS on first startBtn click (not DOMContentLoaded dependent)
-if (startBtn && !startBtn.hasSpeechListener) {
-    startBtn.addEventListener('click', () => {
-        if (!speechEnabled) {
-            speakText("Models loaded. You can start the camera.");
-            speechEnabled = true;
-        }
-    });
-    startBtn.hasSpeechListener = true;
-}
+// if (startBtn && !startBtn.hasSpeechListener) {
+//     startBtn.addEventListener('click', () => {
+//         if (!speechEnabled) {
+//             speakText("Models loaded. You can start the camera.");
+//             speechEnabled = true;
+//         }
+//     });
+//     startBtn.hasSpeechListener = true;
+// }
 
 // Now wait for DOM to be ready for everything else
 
@@ -46,7 +47,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     recordBtn.disabled = true;
     stopBtn.disabled = true;
 
-    startBtn.addEventListener('click', startCamera);
+    startBtn.addEventListener('click', () => {
+        if (videoStream) {
+            stopSession();
+        } else {
+            startCamera();
+        }
+    });
     recordBtn.addEventListener('click', toggleRecording);
     stopBtn.addEventListener('click', stopSession);
     switchCameraBtn.addEventListener('click', switchCamera);
@@ -59,7 +66,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const success = await modelLoader.initializeModels();
         if (success) {
             modelsLoaded = true;
-            addResponse('AI models loaded successfully. Verifying API connection...', false, true);
+            //addResponse('AI models loaded successfully. Verifying API connection...', false, true);
             await verifyApiConnection();
             if (apiVerified) {
                 addResponse('System ready! You can now start the camera.', false, true);
@@ -414,7 +421,6 @@ function playAudio(base64Data) {
     });
 }
 
-// Add response message to UI
 // Add response message to UI
 function addResponse(text, isLoading = false, replaceExisting = false) {
     // Create response item

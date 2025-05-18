@@ -31,12 +31,12 @@ class ModelLoader {
             
             // If all models are loaded, enable the start button
             if (this.allModelsLoaded()) {
-                this.modelStatusElement.innerHTML = `
+                this.modelStatusElement.innerHTML += (`
                     <div class="alert alert-success">
                         <i class="fas fa-check-circle status-icon status-success"></i>
-                        All models loaded successfully. You can now start the camera.
+                        Models loaded successfully. You can now start the camera.
                     </div>
-                `;
+                `);
                 this.startBtn.disabled = false;
                 return true;
             }
@@ -104,6 +104,7 @@ async testGPTEnhancement() {
         const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
         
         // Simple test request to API endpoint with test prompt
+        //"https://spokenvision-952306169360.us-central1.run.app/test-gpt/"
         const response = await fetch("https://spokenvision-952306169360.us-central1.run.app/test-gpt/", {
             method: "POST",
             headers: {

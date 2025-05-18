@@ -370,6 +370,8 @@ async def process_files(
         caption = enhance_description_with_gpt(raw_context_description)
         logger.info("Caption enhancement completed.")
 
+
+###################
         # Get the system temp directory 
         temp_dir = tempfile.gettempdir()
 

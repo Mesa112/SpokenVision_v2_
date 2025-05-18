@@ -4,6 +4,8 @@ import os
 import tempfile
 import pathlib
 import time
+import numpy as np
+
 
 def load_kokoro_model(lang_code='a'):
     """Load the Kokoro TTS model with the specified language code."""
@@ -99,17 +101,17 @@ def text_to_audio(model_info, input_text, output_dir='./audio_output', file_name
                 try:
                     print(f"Trying Kokoro with voice: {voice_name}")
                     generator = model(input_text, voice=voice_name)
-                    
+                    all_audio = []
                     # Process all segments
-                    audio_files = []
                     for i, (gs, ps, audio) in enumerate(generator):
-                        segment_file = f"{output_dir}/{file_name}_{i}.wav"
-                        sf.write(segment_file, audio, 24000)
-                        audio_files.append(segment_file)
-                    
-                    if audio_files:
-                        print(f"✅ Audio saved using Kokoro with voice {voice_name}")
-                        return audio_files
+                        print(f"Segment {i}, audio length: {len(audio)}")
+                        all_audio.append(audio) 
+                        
+                    combined_audio = np.concatenate(all_audio, axis=0)
+                    sf.write(audio_file, combined_audio, 24000)
+                    # if audio_file:
+                    print(f"✅ Audio saved using Kokoro with voice {voice_name}")
+                    return audio_file
                 except Exception as e:
                     print(f"⚠️ Voice {voice_name} failed: {e}")
                     continue
@@ -221,7 +223,6 @@ def text_to_audio(model_info, input_text, output_dir='./audio_output', file_name
         except Exception as gtt_err:
             print(f"⚠️ Final gTTS fallback failed: {gtt_err}")
             # Create a silent audio file as last resort
-            import numpy as np
             empty_audio = np.zeros(16000)  # 1 second of silence at 16kHz
             sf.write(audio_file, empty_audio, 16000)
             print(f"⚠️ Created silent audio file: {audio_file}")
