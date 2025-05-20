@@ -1,4 +1,5 @@
 SpokenVision
+Demo : https://youtube.com/shorts/gWyHpFkxIAg?feature=share
 
 SpokenVision is an assistive AI application designed to help visually impaired users perceive their environment through real-time audio descriptions. It captures video input, detects and identifies objects, estimates their distance, and converts the information into spoken feedback using advanced AI models.
 🔍 Key Features
