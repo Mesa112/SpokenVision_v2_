@@ -22,7 +22,7 @@ let apiVerified = false;
 let speechEnabled = false;
 
 // API endpoint
-const API_ENDPOINT = "https://spokenvision-952306169360.us-central1.run.app/process/"; //"https://spokenvision-952306169360.us-central1.run.app/process/";
+const API_ENDPOINT = "https://spokenvision-952306169360.us-central1.run.app"; //"https://spokenvision-952306169360.us-central1.run.app";
 
 // Initialize model loader
 let modelLoader;
@@ -120,7 +120,7 @@ async function verifyApiConnection() {
         const timeoutId = setTimeout(() => controller.abort(), 15000); // 15-second timeout
         
         try {
-            const response = await fetch(API_ENDPOINT, {
+            const response = await fetch(`${API_ENDPOINT}/process/`, {
                 method: "POST",
                 body: formData,
                 signal: controller.signal
