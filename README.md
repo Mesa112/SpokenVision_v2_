@@ -49,7 +49,6 @@ test.ipynb 	Notebook for testing server + models
 semantic_segmentation.py 	(Optional) Semantic segmentation pipeline
 requirements.txt 	Python dependencies
 yolov8n.pt 	YOLOv8 weights
-# ⚙️ Setup Instructions
 # 🔧 Prerequisites
 
     Python 3.8+
@@ -65,3 +64,39 @@ cd SpokenVision
 
 # Python environment
 pip install -r requirements.txt
+
+## ⚙️ Setup Instructions
+
+### 🖥️ Frontend
+
+Serve the frontend using Python's built-in HTTP server:
+
+```bash
+cd SpokenVision/FrontEnd/public
+python -m http.server 8000
+```
+
+### 🧠 Backend
+
+Serve the backend using Uvicorn:
+
+```bash
+cd Backend
+uvicorn cloud_server:app --host 0.0.0.0 --port 5000
+```
+
+### 🔁 Connect Frontend to Backend
+
+Open the following files:
+
+- `FrontEnd/public/script.js`
+- `FrontEnd/public/model-loader.js`
+
+Set the `API_ENDPOINT` to:
+
+```js
+const API_ENDPOINT = "http://localhost:5000";
+```
+
+- `Webpage will be hosted at http://localhost:8000/index.html`
+
