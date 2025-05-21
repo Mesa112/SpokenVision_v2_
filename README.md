@@ -10,7 +10,7 @@
 
 
 SpokenVision is an assistive AI application designed to help visually impaired users perceive their environment through real-time audio descriptions. It captures video input, detects and identifies objects, estimates their distance, and converts the information into spoken feedback using advanced AI models.
-🔍 Key Features
+## 🔍 Key Features
 
     Real-time object detection (YOLOv8)
     Depth estimation using MiDaS
@@ -19,7 +19,7 @@ SpokenVision is an assistive AI application designed to help visually impaired u
     Audio synthesis using gTTS (Google Text-to-Speech)
     Frontend using React.js
 
-📸 Project Flow
+## 📸 Project Flow
     ![SpokenVision Workflow Diagram](https://i.imgur.com/ImyREFn.png)
 
     Camera Feed captures real-time video.
@@ -31,7 +31,7 @@ SpokenVision is an assistive AI application designed to help visually impaired u
     kokoro_audio.py and speech_Output.py convert text output to speech.
     streamlit.py / server.py / object_detection.py serve the app frontend.
 
-📁 File Overview
+## 📁 File Overview
 File / Folder 	Purpose
 main.py 	Main entry point for backend orchestration
 object_detection.py 	YOLOv8-based object detection
@@ -49,8 +49,8 @@ test.ipynb 	Notebook for testing server + models
 semantic_segmentation.py 	(Optional) Semantic segmentation pipeline
 requirements.txt 	Python dependencies
 yolov8n.pt 	YOLOv8 weights
-⚙️ Setup Instructions
-🔧 Prerequisites
+# ⚙️ Setup Instructions
+# 🔧 Prerequisites
 
     Python 3.8+
     Node.js (optional if using additional UI)
@@ -58,7 +58,7 @@ yolov8n.pt 	YOLOv8 weights
     FFmpeg (for audio)
     GPU recommended (for YOLO and MiDaS)
 
-🧪 Installation
+## 🧪 Installation
 
 git clone https://github.com/Mesa112/SpokenVision.git
 cd SpokenVision
