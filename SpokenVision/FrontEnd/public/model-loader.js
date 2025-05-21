@@ -1,7 +1,7 @@
 // model-loader.js
 // This file demonstrates how to handle model loading for SpokenVision
 
-API_ENDPOINT = "https://spokenvision-952306169360.us-central1.run.app"
+const API_ENDPOINT = "https://spokenvision-952306169360.us-central1.run.app"
 
 class ModelLoader {
     constructor() {
