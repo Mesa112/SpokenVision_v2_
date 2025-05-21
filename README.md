@@ -20,6 +20,7 @@ SpokenVision is an assistive AI application designed to help visually impaired u
     Frontend using React.js
 
 📸 Project Flow
+    ![SpokenVision Workflow Diagram](https://i.imgur.com/ImyREFn.png)
 
     Camera Feed captures real-time video.
     object_detection.py identifies objects using YOLOv8.
