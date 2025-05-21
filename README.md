@@ -1,5 +1,14 @@
 SpokenVision
-Demo : https://youtube.com/shorts/gWyHpFkxIAg?feature=share
+
+Demo:
+<p align="center">
+  <a href="https://youtube.com/shorts/gWyHpFkxIAg?feature=share">
+    <img src="https://i.imgur.com/fDb4ilz.png" style="max-height: 500px; width: auto;" />
+  </a>
+</p>
+
+[SpokenVision Slides Presentation](https://docs.google.com/presentation/d/1-q8HFq-ZHlbFR2NloiWQXmuxu3pfY8jJQWInpOJ0tsQ/edit?usp=sharing)
+
 
 SpokenVision is an assistive AI application designed to help visually impaired users perceive their environment through real-time audio descriptions. It captures video input, detects and identifies objects, estimates their distance, and converts the information into spoken feedback using advanced AI models.
 🔍 Key Features
