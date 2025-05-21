@@ -1,6 +1,8 @@
 // model-loader.js
 // This file demonstrates how to handle model loading for SpokenVision
 
+API_ENDPOINT = "https://spokenvision-952306169360.us-central1.run.app"
+
 class ModelLoader {
     constructor() {
         this.models = {
@@ -105,7 +107,7 @@ async testGPTEnhancement() {
         
         // Simple test request to API endpoint with test prompt
         //"https://spokenvision-952306169360.us-central1.run.app/test-gpt/"
-        const response = await fetch("https://spokenvision-952306169360.us-central1.run.app/test-gpt/", {
+        const response = await fetch(`${API_ENDPOINT}/test-gpt/`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
