@@ -62,7 +62,7 @@ yolov8n.pt 	YOLOv8 weights
 git clone https://github.com/Mesa112/SpokenVision.git
 cd SpokenVision
 
-# Python environment
+## Python environment
 pip install -r requirements.txt
 
 ## ⚙️ Setup Instructions
